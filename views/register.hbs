@@ -9,43 +9,32 @@
         body {
             background-color: aqua;
         }
-        nav{
+        nav {
             background-color: black;
             color: aliceblue;
             padding: 30px 60px;
             display: flex;
             justify-content: space-between;
         }
-
-        nav ul
-        {
+        nav ul {
             display: flex;
             justify-content: space-around;
             align-items: center;
         }
-
-        nav li
-        {
+        nav li {
             list-style: none;
         }
-
-        nav li a
-        {
+        nav li a {
             color: aliceblue;
             text-decoration: none;
             font-weight: bold;
             padding: 5px 8px;
         }
-
-        nav li a:hover
-        {
+        nav li a:hover {
             color: green;
-            text-decoration:none;
-
+            text-decoration: none;
         }
-
-        .form-container 
-        {
+        .form-container {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
@@ -63,12 +52,13 @@
         </ul>
     </nav>
 
-     <div class="container mt-4">
+    <div class="container mt-4">
+        <div id="message" class="alert alert-danger" role="alert" style="display: none;"></div>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="form-container">
                     <h2 class="mb-4 text-center">Register</h2>
-                    <form action="/register" method="post">
+                    <form action="/auth/register" method="post">
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" name="name" required>
@@ -81,6 +71,10 @@
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password" name="password" required>
                         </div>
+                        <div class="mb-3">
+                            <label for="cpassword" class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" id="cpassword" name="cpassword" required>
+                        </div>
                         <button type="submit" class="btn btn-primary w-100">Register</button>
                     </form>
                 </div>
@@ -88,5 +82,23 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const message = params.get('message');
+            if (message) {
+                localStorage.setItem('message', message);
+                window.location.search = ''; // Clear query parameters
+            } else {
+                const storedMessage = localStorage.getItem('message');
+                if (storedMessage) {
+                    const messageDiv = document.getElementById('message');
+                    messageDiv.textContent = storedMessage;
+                    messageDiv.style.display = 'block';
+                    localStorage.removeItem('message');
+                }
+            }
+        };
+    </script>
 </body>
 </html>
