@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <title>REGOV</title>
+    <title>REGOV - Login</title>
     <style>
         body {
             background-color: aqua;
@@ -34,6 +34,12 @@
             color: green;
             text-decoration: none;
         }
+        .form-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -41,14 +47,50 @@
         <h4>Task Regov</h4>
         <ul>
             <li>
-                <a href="#">Login</a>
-            </li>
-            <li>
-                <a href="register">Register</a>
+                <a href="/register">Register</a>
             </li>
         </ul>
     </nav>
-    <div class="container mt-4"></div>
+
+    <div class="container mt-4">
+        <div id="message" class="alert alert-danger" role="alert" style="display: none;"></div>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-container">
+                    <h2 class="mb-4 text-center">Login</h2>
+                    <form action="/auth/login" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const message = params.get('message');
+            if (message) {
+                localStorage.setItem('message', message);
+                window.location.search = ''; // Clear query parameters
+            } else {
+                const storedMessage = localStorage.getItem('message');
+                if (storedMessage) {
+                    const messageDiv = document.getElementById('message');
+                    messageDiv.textContent = storedMessage;
+                    messageDiv.style.display = 'block';
+                    localStorage.removeItem('message');
+                }
+            }
+        };
+    </script>
 </body>
 </html>

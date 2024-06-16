@@ -37,3 +37,28 @@ exports.register = (req, res) => {
         });
     });
 };
+
+exports.login = (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.redirect('/index?message=Please provide email and password');
+    }
+
+    db.query('SELECT * FROM users WHERE email = ?', [email], async (error, results) => {
+        if (error) {
+            console.log(error);
+            return res.redirect('/index?message=An error occurred');
+        }
+        if (results.length == 0 || !(await bcrypt.compare(password, results[0].password))) {
+            return res.redirect('/index?message=Email or password is incorrect');
+        } else {
+            return res.redirect('/homepage?message=Login successful');
+        }
+    });
+};
+
+exports.logout = (req, res) => {
+    return res.redirect('/index?message=Logout successful');
+};
+

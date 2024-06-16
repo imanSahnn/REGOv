@@ -2,8 +2,6 @@ const express = require("express");
 const path = require('path');
 const mysql = require("mysql");
 const dotenv = require('dotenv');
-const session = require('express-session');
-const flash = require('connect-flash');
 
 dotenv.config({ path: './.env' });
 
@@ -24,16 +22,6 @@ console.log(__dirname);
 app.use(express.urlencoded({ extended: false }));
 // Parse JSON as API client
 app.use(express.json());
-
-// Set up session middleware
-app.use(session({
-    secret: 'your_secret_key', // Replace with a strong secret key
-    resave: false,
-    saveUninitialized: true
-}));
-
-// Set up flash middleware
-app.use(flash());
 
 // Set up view engine
 app.set('view engine', 'hbs');
